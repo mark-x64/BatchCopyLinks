@@ -20,11 +20,39 @@ Chrome 扩展：在 **Twitter** 或 **Instagram** 任意页面，实时采集帖
 - **一键复制**：复制当前筛选结果的全部链接，换行分隔
 - **多语言**：中文简体 / 中文繁体 / English / 日本語，首次启动自动匹配浏览器语言
 
-## 安装（开发者模式）
+## 安装
 
-1. 打开 Chrome，地址栏输入 `chrome://extensions/`
-2. 打开右上角「开发者模式」
-3. 点击「加载已解压的扩展程序」，选择本项目目录 `BatchCopyLinks`
+### 方式一：从 Release 下载（推荐）
+
+1. 前往 [Releases](../../releases) 页面，下载最新版的 `.zip` 文件
+2. 解压到任意目录
+3. 打开 Chrome，地址栏输入 `chrome://extensions/`
+4. 打开右上角「开发者模式」
+5. 点击「加载已解压的扩展程序」，选择刚才解压的文件夹
+
+### 方式二：克隆源码（开发者模式）
+
+1. 克隆本仓库
+2. 打开 Chrome，地址栏输入 `chrome://extensions/`
+3. 打开右上角「开发者模式」
+4. 点击「加载已解压的扩展程序」，选择仓库根目录
+
+## 构建
+
+需要本机安装 Google Chrome。
+
+```bash
+./build.sh
+```
+
+首次运行会自动生成签名私钥 `BatchCopyLinks.pem`，请妥善保管，后续每次打包都需要用它。
+
+构建产物输出到 `dist/`：
+
+| 文件 | 用途 |
+|------|------|
+| `BatchCopyLinks-vX.X.X.zip` | 解压后在开发者模式下加载 |
+| `BatchCopyLinks-vX.X.X.crx` | 可直接拖入 `chrome://extensions/` 安装 |
 
 ## 使用
 
