@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "ソーシャルリンク一括コピー",
+    "description": "Extension name"
+  },
+  "appDesc": {
+    "message": "x.com / Instagram の任意ページから投稿リンクを一括収集。タイプ絞り込みとワンクリックコピーに対応",
+    "description": "Extension description"
+  }
+}

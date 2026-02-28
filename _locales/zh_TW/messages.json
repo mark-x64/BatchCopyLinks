@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "批量複製社交連結",
+    "description": "Extension name"
+  },
+  "appDesc": {
+    "message": "在 x.com / Instagram 任意頁面批量採集貼文連結，支援類型篩選與一鍵複製",
+    "description": "Extension description"
+  }
+}

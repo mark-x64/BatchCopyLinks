@@ -1,34 +1,21 @@
 'use strict';
 
-const startBtn = document.getElementById('startBtn');
-const stopBtn = document.getElementById('stopBtn');
+const startBtn       = document.getElementById('startBtn');
+const stopBtn        = document.getElementById('stopBtn');
 const collectActions = document.getElementById('collectActions');
-const stopActions = document.getElementById('stopActions');
-const scrollHint = document.getElementById('scrollHint');
-const resultSection = document.getElementById('resultSection');
-const resultTitle = document.getElementById('resultTitle');
-const filterBar = document.getElementById('filterBar');
-const filterChips = document.getElementById('filterChips');
-const itemList = document.getElementById('itemList');
-const copyBtn = document.getElementById('copyBtn');
-const errorEl = document.getElementById('error');
-
-const TYPE_LABELS = {
-  // Twitter
-  text: '纯文字',
-  photo: '单图',
-  'multi-photo': '多图',
-  video: '视频',
-  gif: 'GIF',
-  mixed: '图+视频',
-  poll: '投票',
-  article: '长文',
-  // Instagram
-  reel: 'Reel',
-  carousel: '轮播',
-  // 通用
-  unknown: '其他',
-};
+const stopActions    = document.getElementById('stopActions');
+const scrollHint     = document.getElementById('scrollHint');
+const resultSection  = document.getElementById('resultSection');
+const resultTitle    = document.getElementById('resultTitle');
+const filterBar      = document.getElementById('filterBar');
+const filterChips    = document.getElementById('filterChips');
+const itemList       = document.getElementById('itemList');
+const copyBtn        = document.getElementById('copyBtn');
+const errorEl        = document.getElementById('error');
+const mainTitle      = document.getElementById('mainTitle');
+const mainHint       = document.getElementById('mainHint');
+const langPickerEl   = document.getElementById('langPicker');
+const langToggleBtn  = document.getElementById('langToggle');
 
 let port = null;
 let allItems = [];
@@ -47,7 +34,6 @@ function renderFilters() {
   }
   const types = Object.keys(counts);
 
-  // 只有一种类型时不显示筛选栏
   if (types.length <= 1) {
     filterBar.classList.add('hidden');
     return;
@@ -55,10 +41,10 @@ function renderFilters() {
   filterBar.classList.remove('hidden');
   filterChips.innerHTML = '';
 
-  // 「全部」chip
+  // "全部" chip
   const allChip = document.createElement('span');
   allChip.className = 'filter-chip' + (activeFilters.size === 0 ? ' active' : '');
-  allChip.textContent = `全部 (${allItems.length})`;
+  allChip.textContent = `${t('all_filter')} (${allItems.length})`;
   allChip.addEventListener('click', () => {
     activeFilters.clear();
     renderFilters();
@@ -66,20 +52,21 @@ function renderFilters() {
   });
   filterChips.appendChild(allChip);
 
-  // 各类型 chip（按 TYPE_LABELS 定义顺序排列）
-  const orderedTypes = Object.keys(TYPE_LABELS).filter((t) => counts[t] !== undefined);
-  const remaining = types.filter((t) => !orderedTypes.includes(t));
+  // Type order follows the key order in MESSAGES
+  const typeOrder = ['text','photo','multi-photo','video','gif','mixed','poll','article','reel','carousel','unknown'];
+  const orderedTypes = typeOrder.filter((tp) => counts[tp] !== undefined);
+  const remaining    = types.filter((tp) => !orderedTypes.includes(tp));
+
   for (const type of [...orderedTypes, ...remaining]) {
     const chip = document.createElement('span');
     chip.className = 'filter-chip' + (activeFilters.has(type) ? ' active' : '');
-    chip.textContent = `${TYPE_LABELS[type] || type} (${counts[type]})`;
+    chip.textContent = `${typeLabel(type)} (${counts[type]})`;
     chip.addEventListener('click', () => {
       if (activeFilters.has(type)) {
         activeFilters.delete(type);
       } else {
         activeFilters.add(type);
       }
-      // 如果所有类型都被选中，等同于全选，重置为「全部」状态
       if (activeFilters.size === types.length) activeFilters.clear();
       renderFilters();
       renderList();
@@ -91,8 +78,8 @@ function renderFilters() {
 function renderList() {
   const items = filteredItems();
   resultTitle.textContent = activeFilters.size === 0
-    ? `已采集 ${allItems.length} 条`
-    : `已筛选 ${items.length} / ${allItems.length} 条`;
+    ? t('collected', allItems.length)
+    : t('filtered', items.length, allItems.length);
 
   itemList.innerHTML = '';
   items.forEach((item) => {
@@ -101,7 +88,7 @@ function renderList() {
 
     const badge = document.createElement('span');
     badge.className = `type-badge type-${item.type}`;
-    badge.textContent = TYPE_LABELS[item.type] || item.type;
+    badge.textContent = typeLabel(item.type);
 
     const userSpan = document.createElement('span');
     userSpan.className = 'username';
@@ -142,30 +129,57 @@ function setCollecting(collecting) {
   }
 }
 
-// 根据当前标签页平台更新标题和提示
 async function updatePlatformHint() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const url = tab?.url || '';
-    const titleEl = document.querySelector('.title');
-    const hintEl  = document.querySelector('.hint');
     if (/instagram\.com/.test(url)) {
-      titleEl.textContent = '采集 Instagram 帖子';
-      hintEl.innerHTML = '在 <strong>Instagram</strong> 任意页面（主页、用户主页、探索等）点「开始采集」，滚动加载更多。';
+      mainTitle.textContent = t('popup_title_instagram');
+      mainHint.innerHTML    = t('popup_hint_instagram');
     } else if (/x\.com/.test(url)) {
-      titleEl.textContent = '采集推文链接';
-      hintEl.innerHTML = '在 <strong>x.com</strong> 任意页面（主页、书签、用户主页等）点「开始采集」，滚动加载更多。';
+      mainTitle.textContent = t('popup_title_twitter');
+      mainHint.innerHTML    = t('popup_hint_twitter');
+    } else {
+      mainTitle.textContent = t('popup_title_default');
+      mainHint.innerHTML    = t('popup_hint_default');
     }
-  } catch (_) {}
+  } catch (_) {
+    mainTitle.textContent = t('popup_title_default');
+    mainHint.innerHTML    = t('popup_hint_default');
+  }
 }
-updatePlatformHint();
+
+// ── Language picker ───────────────────────────────────────────────────────────
+
+function showLangPicker() {
+  langPickerEl.classList.remove('hidden');
+}
+
+function hideLangPicker() {
+  langPickerEl.classList.add('hidden');
+}
+
+langToggleBtn.addEventListener('click', showLangPicker);
+
+document.querySelectorAll('.lang-opt-btn').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    await setLang(btn.dataset.lang);
+    applyTranslations();
+    await updatePlatformHint();
+    renderFilters();
+    renderList();
+    hideLangPicker();
+  });
+});
+
+// ── Collect actions ───────────────────────────────────────────────────────────
 
 startBtn.addEventListener('click', async () => {
   hideError();
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab?.id) {
-      showError('无法获取当前标签页');
+      showError(t('err_no_tab'));
       return;
     }
     port = chrome.tabs.connect(tab.id, { name: 'x-tweets-collect' });
@@ -186,15 +200,13 @@ startBtn.addEventListener('click', async () => {
     });
     port.postMessage({ action: 'start' });
     setCollecting(true);
-  } catch (e) {
-    showError('采集失败，请确保当前标签页是 x.com 页面并已加载完成，然后刷新后重试。');
+  } catch (_) {
+    showError(t('err_collect'));
   }
 });
 
 stopBtn.addEventListener('click', () => {
-  if (port) {
-    port.postMessage({ action: 'stop' });
-  }
+  if (port) port.postMessage({ action: 'stop' });
   setCollecting(false);
 });
 
@@ -203,7 +215,16 @@ copyBtn.addEventListener('click', () => {
   const text = items.map((x) => x.link).join('\n');
   if (!text) return;
   navigator.clipboard.writeText(text).then(() => {
-    copyBtn.textContent = '已复制';
-    setTimeout(() => { copyBtn.textContent = '复制链接（仅链接，换行分隔）'; }, 1500);
+    copyBtn.textContent = t('copied');
+    setTimeout(() => { copyBtn.textContent = t('copy_links_btn'); }, 1500);
   });
 });
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+
+(async () => {
+  const firstLaunch = await initLang();
+  applyTranslations();
+  await updatePlatformHint();
+  if (firstLaunch) showLangPicker();
+})();

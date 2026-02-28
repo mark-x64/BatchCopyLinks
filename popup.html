@@ -5,36 +5,56 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="panel">
-    <h1 class="title">采集帖子链接</h1>
-    <p class="hint">在 <strong>x.com</strong> 或 <strong>Instagram</strong> 任意页面点「开始采集」，滚动页面加载更多。</p>
 
-    <div class="collect-actions" id="collectActions">
-      <button type="button" class="btn danger" id="startBtn">开始采集</button>
+  <!-- Language picker overlay — shown on first launch or via the toggle button -->
+  <div id="langPicker" class="lang-overlay hidden">
+    <div class="lang-box">
+      <p class="lang-title">选择语言 · Select Language · 言語を選択</p>
+      <div class="lang-options">
+        <button class="lang-opt-btn" data-lang="zh_CN">中文（简体）</button>
+        <button class="lang-opt-btn" data-lang="zh_TW">中文（繁體）</button>
+        <button class="lang-opt-btn" data-lang="en">English</button>
+        <button class="lang-opt-btn" data-lang="ja">日本語</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="title-row">
+      <h1 class="title" id="mainTitle" data-i18n="popup_title_default">采集帖子链接</h1>
+      <button type="button" class="lang-toggle-btn" id="langToggle" title="Language / 语言">🌐</button>
     </div>
 
-    <p class="scroll-hint hidden" id="scrollHint">请往下滚动页面以加载更多推文，采集会每 1 秒更新。</p>
+    <p class="hint" id="mainHint" data-i18n-html="popup_hint_default">在 <strong>x.com</strong> 或 <strong>Instagram</strong> 任意页面点「开始采集」，滚动页面加载更多。</p>
+
+    <div class="collect-actions" id="collectActions">
+      <button type="button" class="btn danger" id="startBtn" data-i18n="start_btn">开始采集</button>
+    </div>
+
+    <p class="scroll-hint hidden" id="scrollHint" data-i18n="scroll_hint">请往下滚动页面以加载更多推文，采集会每 1 秒更新。</p>
 
     <div class="collect-actions hidden" id="stopActions">
-      <button type="button" class="btn danger" id="stopBtn">停止采集</button>
+      <button type="button" class="btn danger" id="stopBtn" data-i18n="stop_btn">停止采集</button>
     </div>
 
     <section class="result hidden" id="resultSection">
-      <h2 id="resultTitle">已采集 0 条</h2>
+      <h2 id="resultTitle"></h2>
 
       <div class="filter-bar hidden" id="filterBar">
-        <span class="filter-label">筛选：</span>
+        <span class="filter-label" data-i18n="filter_label">筛选：</span>
         <div class="filter-chips" id="filterChips"></div>
       </div>
 
       <div class="item-list" id="itemList"></div>
       <div class="actions">
-        <button type="button" class="btn secondary" id="copyBtn">复制链接（仅链接，换行分隔）</button>
+        <button type="button" class="btn secondary" id="copyBtn" data-i18n="copy_links_btn">复制链接（仅链接，换行分隔）</button>
       </div>
     </section>
 
     <p class="error hidden" id="error"></p>
   </div>
+
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

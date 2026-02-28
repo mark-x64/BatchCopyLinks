@@ -16,10 +16,90 @@ body {
   box-sizing: border-box;
 }
 
+/* ── Title row with language toggle ── */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
 .title {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 18px;
   font-weight: 700;
+}
+
+.lang-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  line-height: 1;
+  color: #536471;
+  flex-shrink: 0;
+}
+
+.lang-toggle-btn:hover {
+  background: #eff3f4;
+}
+
+/* ── Language picker overlay ── */
+.lang-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.lang-overlay.hidden {
+  display: none;
+}
+
+.lang-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  width: 260px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.lang-title {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #536471;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.lang-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lang-opt-btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #eff3f4;
+  border: 1px solid #cfd9de;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.lang-opt-btn:hover {
+  background: #1d9bf0;
+  border-color: #1d9bf0;
+  color: #fff;
 }
 
 .hint {
@@ -207,6 +287,12 @@ body {
 @media (prefers-color-scheme: dark) {
   body { background: #15202b; color: #e7e9ea; }
   .hint { color: #8b98a5; }
+  .lang-toggle-btn { color: #8b98a5; }
+  .lang-toggle-btn:hover { background: #38444d; }
+  .lang-box { background: #192734; }
+  .lang-title { color: #8b98a5; }
+  .lang-opt-btn { background: #38444d; border-color: #4a5966; color: #e7e9ea; }
+  .lang-opt-btn:hover { background: #1d9bf0; border-color: #1d9bf0; color: #fff; }
   .scroll-hint { background: #3d2e00; color: #e7e9ea; }
   .result { background: #192734; border-color: #38444d; }
   .item-row .username { color: #e7e9ea; }

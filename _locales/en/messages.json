@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Batch Copy Social Links",
+    "description": "Extension name"
+  },
+  "appDesc": {
+    "message": "Batch collect post links from x.com / Instagram with type filtering and one-click copy",
+    "description": "Extension description"
+  }
+}
