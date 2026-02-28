@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "ソーシャルリンク一括コピー",
+    "message": "BatchCopyLinks",
     "description": "Extension name"
   },
   "appDesc": {
