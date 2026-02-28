@@ -1,0 +1,52 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-gray:1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "hidden" : true,
+          "image-name" : "图层 2.png",
+          "name" : "图层 2"
+        },
+        {
+          "hidden" : false,
+          "image-name" : "图层.png",
+          "name" : "图层"
+        },
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "automatic-gradient" : "srgb:0.68726,0.68726,0.68726,1.00000"
+          },
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "Grid (Do not export).png",
+          "name" : "Grid (Do not export)",
+          "opacity" : 0.3,
+          "position" : {
+            "scale" : 1.1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ]
+  }
+}

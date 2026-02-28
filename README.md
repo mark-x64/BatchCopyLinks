@@ -1,3 +1,5 @@
+<img src="icon/full/BatchCopyLinks-128px-full.png" width="128" alt="BatchCopyLinks">
+
 # BatchCopyLinks
 
 Chrome 扩展：在 **Twitter** 或 **Instagram** 任意页面，实时采集帖子链接，支持按内容类型筛选，一键复制。
