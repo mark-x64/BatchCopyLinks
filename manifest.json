@@ -4,9 +4,18 @@
   "version": "1.5.0",
   "description": "__MSG_appDesc__",
   "default_locale": "zh_CN",
-  "permissions": ["storage"],
+  "permissions": ["storage", "sidePanel"],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://www.x.com/*",
+    "https://www.instagram.com/*",
+    "https://instagram.com/*"
+  ],
   "action": {
     "default_popup": "popup.html"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "content_scripts": [
     {
