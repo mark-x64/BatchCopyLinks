@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Batch Copy Social Links",
+  "version": "1.4.0",
+  "description": "在 x.com / Instagram 任意页面批量采集帖子链接，支持类型筛选与一键复制",
+  "permissions": [],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://www.x.com/*",
+        "https://www.instagram.com/*",
+        "https://instagram.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="panel">
+    <h1 class="title">采集帖子链接</h1>
+    <p class="hint">在 <strong>x.com</strong> 或 <strong>Instagram</strong> 任意页面点「开始采集」，滚动页面加载更多。</p>
+
+    <div class="collect-actions" id="collectActions">
+      <button type="button" class="btn danger" id="startBtn">开始采集</button>
+    </div>
+
+    <p class="scroll-hint hidden" id="scrollHint">请往下滚动页面以加载更多推文，采集会每 1 秒更新。</p>
+
+    <div class="collect-actions hidden" id="stopActions">
+      <button type="button" class="btn danger" id="stopBtn">停止采集</button>
+    </div>
+
+    <section class="result hidden" id="resultSection">
+      <h2 id="resultTitle">已采集 0 条</h2>
+
+      <div class="filter-bar hidden" id="filterBar">
+        <span class="filter-label">筛选：</span>
+        <div class="filter-chips" id="filterChips"></div>
+      </div>
+
+      <div class="item-list" id="itemList"></div>
+      <div class="actions">
+        <button type="button" class="btn secondary" id="copyBtn">复制链接（仅链接，换行分隔）</button>
+      </div>
+    </section>
+
+    <p class="error hidden" id="error"></p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

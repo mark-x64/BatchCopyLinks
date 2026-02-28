@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="panel">
+    <h1 class="title">采集收藏链接</h1>
+    <p class="hint">请在 <strong>x.com/i/bookmarks</strong> 页面打开本面板后点击下方按钮。</p>
+
+    <section class="range">
+      <h2>采集范围</h2>
+      <label class="opt"><input type="checkbox" id="onlyVisible"> 仅采集当前视窗内可见的链接</label>
+      <label class="opt"><input type="checkbox" id="deduplicate" checked> 去重</label>
+      <label class="opt">
+        最多采集 <input type="number" id="maxCount" min="0" value="0" placeholder="0=不限制"> 条
+      </label>
+    </section>
+
+    <button type="button" class="btn primary" id="collect">采集收藏链接</button>
+
+    <section class="result hidden" id="resultSection">
+      <h2 id="resultTitle">已采集 0 条链接</h2>
+      <textarea id="resultText" readonly rows="12"></textarea>
+      <div class="actions">
+        <button type="button" class="btn secondary" id="copy">复制到剪贴板</button>
+      </div>
+    </section>
+
+    <p class="error hidden" id="error"></p>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
